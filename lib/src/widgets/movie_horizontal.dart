@@ -26,42 +26,41 @@ class MovieHorizontal extends StatelessWidget {
 
     return Container(
       height: _screenSize.height * 0.2,
-      child: PageView(
+      child: PageView.builder(
         pageSnapping: false,
         controller: _pageController,
-        children: _cards(context),
+        itemCount: movies.length,
+        itemBuilder: (context, index) => _card(context, movies[index]),
       ),
     );
   }
 
-  List<Widget> _cards(BuildContext context) {
-    return movies.map((movie) {
-      return Container(
-        margin: EdgeInsets.only(
-          right: 15.0,
-        ),
-        child: Column(
-          children: [
-            ClipRRect(
-              borderRadius: BorderRadius.circular(20.0),
-              child: FadeInImage(
-                placeholder: AssetImage("assets/img/no-image.jpg"),
-                image: NetworkImage(movie.getPosterImg()),
-                fit: BoxFit.cover,
-                height: 140.0,
-              ),
+  Widget _card(BuildContext context, Movie movie) {
+    return Container(
+      margin: EdgeInsets.only(
+        right: 15.0,
+      ),
+      child: Column(
+        children: [
+          ClipRRect(
+            borderRadius: BorderRadius.circular(20.0),
+            child: FadeInImage(
+              placeholder: AssetImage("assets/img/no-image.jpg"),
+              image: NetworkImage(movie.getPosterImg()),
+              fit: BoxFit.cover,
+              height: 140.0,
             ),
-            SizedBox(
-              height: 5.0,
-            ),
-            Text(
-              movie.title,
-              overflow: TextOverflow.ellipsis,
-              style: Theme.of(context).textTheme.caption,
-            )
-          ],
-        ),
-      );
-    }).toList();
+          ),
+          SizedBox(
+            height: 5.0,
+          ),
+          Text(
+            movie.title,
+            overflow: TextOverflow.ellipsis,
+            style: Theme.of(context).textTheme.caption,
+          )
+        ],
+      ),
+    );
   }
 }
