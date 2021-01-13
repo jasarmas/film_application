@@ -30,8 +30,6 @@ class MoviesProvider {
 
     final decodedData = json.decode(response.body);
 
-    print(decodedData);
-
     final movies = new Movies.fromJsonList(decodedData["results"]);
 
     return movies.items;
@@ -58,8 +56,6 @@ class MoviesProvider {
 
     final response = await _processResponse(url);
 
-    print(response);
-
     _popular.addAll(response);
     popularSink(_popular);
 
@@ -79,7 +75,6 @@ class MoviesProvider {
 
     final cast = new Cast.fromJsonList(decodedData["cast"]);
 
-    print(cast);
     return cast.actors;
   }
 }
