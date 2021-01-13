@@ -1,3 +1,4 @@
+import 'package:film_application/src/models/actors_model.dart';
 import 'package:http/http.dart' as http;
 import 'package:film_application/src/models/movie_model.dart';
 import 'dart:async';
@@ -5,6 +6,7 @@ import "dart:convert";
 
 class MoviesProvider {
   String _apikey = "3a0b4a3f6d736e93d5733388efbfc314";
+  String _apikeyUdemy = "1865f43a0549ca50d341dd9ab8b29f49";
   String _url = "api.themoviedb.org";
   String _language = "es-ES";
 
@@ -63,5 +65,21 @@ class MoviesProvider {
 
     _loading = false;
     return response;
+  }
+
+  Future<List<Actor>> getCast(String movieId) async {
+    final url = Uri.https(_url, "3/movie/$movieId/credits", {
+      "api_key": _apikey,
+      "language": _language,
+    });
+
+    final response = await http.get(url);
+
+    final decodedData = json.decode(response.body);
+
+    final cast = new Cast.fromJsonList(decodedData["cast"]);
+
+    print(cast);
+    return cast.actors;
   }
 }
